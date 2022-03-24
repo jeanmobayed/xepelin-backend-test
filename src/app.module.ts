@@ -4,8 +4,9 @@ import { AppService } from './app.service';
 import { ClientsModule } from './clients/clients.module';
 import { InvoicesModule } from './invoices/invoices.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import database from './config/database';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import database from './config/database';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => configService.get('typeorm') as TypeOrmModuleOptions,
+      useFactory: (configService: ConfigService) => configService.get('typeorm') as MysqlConnectionOptions,
     }),
   ],
   controllers: [AppController],

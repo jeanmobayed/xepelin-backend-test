@@ -1,5 +1,5 @@
-import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import * as path from 'path';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
 export default () => ({
     typeorm: {
@@ -11,5 +11,6 @@ export default () => ({
         entities: [path.resolve(__dirname, '..', '**/**.entity!(*.d).{ts,js}')],
         synchronize: true,
         logging: true,
-  } as TypeOrmModuleOptions
+        port: parseInt(process.env.DB_PORT || '3306')
+  } as MysqlConnectionOptions
 });
