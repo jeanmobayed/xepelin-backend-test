@@ -16,30 +16,30 @@ export class InvoiceEntity {
   invoiceDate: Date;
 
   @ApiResponseProperty()
-  @Column()
-  vendorId: string;
+  @Column({type: 'int'})
+  vendorId: number;
 
   @ApiResponseProperty()
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
   invoiceTotal: number;
 
   @ApiResponseProperty()
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
   paymentTotal: number;
 
   @ApiResponseProperty()
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
   creditTotal: number;
 
   @ApiResponseProperty()
-  @Column()
+  @Column({type: 'int'})
   bankId: number;
 
   @Column({type: 'date'})
   invoiceDueDate: Date;
 
   @Column({type: 'date', nullable: true})
-  paymentDate: Date;
+  paymentDate?: Date;
 
   @Column({enum: CurrencyEnum})
   currency: CurrencyEnum;

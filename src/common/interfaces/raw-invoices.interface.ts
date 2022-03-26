@@ -8,6 +8,6 @@ export interface RawInvoicesInterface {
     CREDIT_TOTAL: string,
     BANK_ID: string,
     INVOICE_DUE_DATE: string,
-    PAYMENT_DATE: string,
+    PAYMENT_DATE?: string,
     CURRENCY: string
 }

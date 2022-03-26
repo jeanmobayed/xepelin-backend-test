@@ -1,4 +1,22 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { InvoiceFiltersDto } from './dto/invoice-filters.dto';
+import { ListInvoicesDto } from './dto/list-invoices.dto';
+import { InvoicesService } from './invoices.service';
 
+@ApiTags('invoices')
 @Controller('invoices')
-export class InvoicesController {}
+export class InvoicesController {
+  constructor(private readonly invoicesService: InvoicesService) {}
+
+  @Get()
+  @ApiOperation({
+    description: 'Lists all invoices',
+  })
+  @ApiOkResponse({
+    type: ListInvoicesDto,
+  })
+  async listInvoices(@Query() filters: InvoiceFiltersDto): Promise<ListInvoicesDto[]> {
+    return await this.invoicesService.listInvoices(filters);
+  }
+}

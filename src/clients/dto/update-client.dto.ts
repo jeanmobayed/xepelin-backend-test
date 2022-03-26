@@ -8,7 +8,7 @@ export class UpdateClientDto {
   @IsOptional()
   taxId?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: CurrencyEnum })
   @IsEnum(CurrencyEnum)
   @IsOptional()
   currency?: CurrencyEnum;

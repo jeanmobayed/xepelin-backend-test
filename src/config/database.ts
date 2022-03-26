@@ -11,6 +11,9 @@ export default () => ({
         entities: [path.resolve(__dirname, '..', '**/**.entity!(*.d).{ts,js}')],
         synchronize: process.env.NODE_ENV === 'local',
         logging: process.env.NODE_ENV === 'local',
-        port: parseInt(process.env.DB_PORT)
+        port: parseInt(process.env.DB_PORT),
+        extra: {
+          decimalNumbers: true
+        }
   } as MysqlConnectionOptions
 });
