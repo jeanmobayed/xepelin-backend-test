@@ -15,8 +15,11 @@ export class InvoicesController {
   })
   @ApiOkResponse({
     type: ListInvoicesDto,
+    isArray: true,
   })
-  async listInvoices(@Query() filters: InvoiceFiltersDto): Promise<ListInvoicesDto[]> {
+  async listInvoices(
+    @Query() filters: InvoiceFiltersDto,
+  ): Promise<ListInvoicesDto[]> {
     return await this.invoicesService.listInvoices(filters);
   }
 }

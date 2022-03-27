@@ -1,10 +1,23 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnprocessableEntityResponse } from '@nestjs/swagger';
-import { ValidationException } from '../common/exceptions/validation.exception';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GenericResponse } from '../common/interfaces/generic-response.interface';
+import { ClientEntity } from './client.entity';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
-import { ListClientsDto } from './dto/list-clients-dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
 @ApiTags('clients')
@@ -17,9 +30,10 @@ export class ClientsController {
     description: 'Lists all clients',
   })
   @ApiOkResponse({
-    type: ListClientsDto,
+    type: ClientEntity,
+    isArray: true,
   })
-  async listClients(): Promise<ListClientsDto> {
+  async listClients(): Promise<ClientEntity[]> {
     return await this.clientsService.listClients();
   }
 
@@ -30,8 +44,8 @@ export class ClientsController {
   @ApiOkResponse({
     type: GenericResponse,
   })
-  @ApiUnprocessableEntityResponse({
-    type: ValidationException,
+  @ApiBadRequestResponse({
+    type: GenericResponse,
   })
   async createClient(
     @Body() createClientDto: CreateClientDto,
@@ -46,16 +60,30 @@ export class ClientsController {
   @ApiOkResponse({
     type: GenericResponse,
   })
-  @ApiUnprocessableEntityResponse({
-    type: ValidationException,
+  @ApiBadRequestResponse({
+    type: GenericResponse,
   })
   @ApiNotFoundResponse({
-    type: ValidationException,
+    type: GenericResponse,
   })
   async updateClient(
     @Param('id') id: number,
     @Body() updateClientDto: UpdateClientDto,
   ): Promise<GenericResponse> {
     return await this.clientsService.updateClient(id, updateClientDto);
+  }
+
+  @Delete('/:id')
+  @ApiOperation({
+    description: 'Delete a client',
+  })
+  @ApiOkResponse({
+    type: GenericResponse,
+  })
+  @ApiNotFoundResponse({
+    type: GenericResponse,
+  })
+  async deleteClient(@Param('id') id: number): Promise<GenericResponse> {
+    return await this.clientsService.deleteClient(id);
   }
 }

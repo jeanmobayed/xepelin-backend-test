@@ -14,10 +14,10 @@ async function bootstrap() {
     .addTag('clients')
     .addTag('invoices')
     .build();
-  
+
   const document = SwaggerModule.createDocument(app, config);
 
-  app.useGlobalPipes(new ValidationPipe({transform: true}));
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
 
   SwaggerModule.setup('api', app, document);

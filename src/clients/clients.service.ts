@@ -4,7 +4,6 @@ import { GenericResponse } from '../common/interfaces/generic-response.interface
 import { Repository } from 'typeorm';
 import { ClientEntity } from './client.entity';
 import { CreateClientDto } from './dto/create-client.dto';
-import { ListClientsDto } from './dto/list-clients-dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
 @Injectable()
@@ -30,8 +29,8 @@ export class ClientsService {
   ): Promise<GenericResponse> {
     const client = await this.clientsRepository.findOne(id);
 
-    if(!client)
-      throw new NotFoundException({message: 'The client was not found.'});
+    if (!client)
+      throw new NotFoundException({ message: 'The client was not found.' });
 
     const { taxId, currency } = updateClientDto;
 
@@ -40,9 +39,18 @@ export class ClientsService {
     return { message: 'Client updated successfuly' };
   }
 
-  async listClients(): Promise<ListClientsDto> {
-    const clients = await this.clientsRepository.find();
+  async listClients(): Promise<ClientEntity[]> {
+    return await this.clientsRepository.find();
+  }
 
-    return { items: clients };
+  async deleteClient(id: number): Promise<GenericResponse> {
+    const client = await this.clientsRepository.findOne(id);
+
+    if (!client)
+      throw new NotFoundException({ message: 'The client was not found.' });
+
+    await this.clientsRepository.delete(id);
+
+    return { message: 'Client deleted successfuly' };
   }
 }

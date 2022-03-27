@@ -19,9 +19,10 @@ import { ScheduleModule } from '@nestjs/schedule';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => configService.get('typeorm') as MysqlConnectionOptions,
+      useFactory: (configService: ConfigService) =>
+        configService.get('typeorm') as MysqlConnectionOptions,
     }),
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

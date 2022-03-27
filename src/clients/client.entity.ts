@@ -9,15 +9,19 @@ export class ClientEntity {
   id: number;
 
   @ApiResponseProperty()
-  @Column()
+  @Column('varchar', { length: 50 })
   internalCode: string;
 
   @ApiResponseProperty()
-  @Column()
+  @Column('varchar', { length: 50 })
+  companyName: string;
+
+  @ApiResponseProperty()
+  @Column('varchar', { length: 50 })
   taxId: string;
 
-  @ApiResponseProperty({ enum: CurrencyEnum})
-  @Column({enum: CurrencyEnum})
+  @ApiResponseProperty({ enum: CurrencyEnum })
+  @Column({ enum: CurrencyEnum })
   currency: CurrencyEnum;
 
   @ApiResponseProperty()
@@ -25,6 +29,6 @@ export class ClientEntity {
   apiQuota: number;
 
   @ApiResponseProperty()
-  @Column({type: 'json'})
+  @Column({ type: 'json' })
   allowedBanks: string;
 }
