@@ -1,4 +1,5 @@
 import { ApiResponseProperty } from '@nestjs/swagger';
+import { CurrencyEnum } from 'src/common/enums/currency.enum';
 
 export class ListInvoicesDto {
   @ApiResponseProperty()
@@ -21,4 +22,6 @@ export class ListInvoicesDto {
 
   @ApiResponseProperty()
   bankId: number;
+
+  currency?: CurrencyEnum;
 }

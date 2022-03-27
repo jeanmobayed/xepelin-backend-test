@@ -27,7 +27,8 @@ import { RedisClientOptions } from 'redis';
     CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => configService.get('redis'), isGlobal:true
+      useFactory: (configService: ConfigService) => configService.get('redis'),
+      isGlobal: true,
     }),
     ScheduleModule.forRoot(),
   ],

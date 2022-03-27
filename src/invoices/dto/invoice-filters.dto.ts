@@ -1,8 +1,8 @@
 import {
-  IsDateString,
   IsEnum,
   IsInt,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { CurrencyEnum } from '../../common/enums/currency.enum';
 import { Type } from 'class-transformer';
@@ -16,7 +16,7 @@ export class InvoiceFiltersDto {
   vendor?: number;
 
   @ApiPropertyOptional({ description: 'Allows to filter invoices starting from a given date' })
-  @IsDateString()
+  @IsString()
   @IsOptional()
   invoice_date?: string;
 
