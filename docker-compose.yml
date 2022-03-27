@@ -11,9 +11,17 @@ services:
       - $DB_PORT:$DB_PORT
     volumes:
       - db:/var/lib/mysql
+  redis:
+    image: redis
+    command: redis-server --appendonly yes --requirepass $REDIS_PASSWORD
+    ports:
+      - $REDIS_PORT:$REDIS_PORT
+    volumes: 
+      - cache:/data
   app:
     depends_on:
       - mysqldb
+      - redis
     build: .
     restart: unless-stopped
     env_file: ./.env
@@ -24,7 +32,11 @@ services:
       - DB_USER=$DB_USER
       - DB_PASSWORD=$DB_PASSWORD
       - DB_NAME=$DB_NAME
-      - DB_PORT:$DB_PORT
+      - DB_PORT=$DB_PORT
+      - REDIS_HOST=redis
+      - REDIS_PORT=$REDIS_PORT
+      - REDIS_DATABASE=$REDIS_DATABASE
+      - REDIS_PASSWORD=$REDIS_PASSWORD
     stdin_open: true
     tty: true
     volumes:
@@ -32,3 +44,4 @@ services:
     command: npm run start:dev
 volumes:
   db:
+  cache:

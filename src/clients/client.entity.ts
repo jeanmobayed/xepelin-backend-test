@@ -21,7 +21,7 @@ export class ClientEntity {
   taxId: string;
 
   @ApiResponseProperty({ enum: CurrencyEnum })
-  @Column({ enum: CurrencyEnum })
+  @Column()
   currency: CurrencyEnum;
 
   @ApiResponseProperty()

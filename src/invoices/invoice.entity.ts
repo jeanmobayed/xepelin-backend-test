@@ -41,6 +41,6 @@ export class InvoiceEntity {
   @Column({type: 'date', nullable: true})
   paymentDate?: Date;
 
-  @Column({enum: CurrencyEnum})
+  @Column()
   currency: CurrencyEnum;
 }
