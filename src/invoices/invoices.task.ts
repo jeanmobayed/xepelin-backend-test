@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import * as https from 'https';
 import { parse } from 'csv-parse';
 import { ConfigService } from '@nestjs/config';
@@ -9,13 +9,15 @@ import { InvoiceEntity } from './invoice.entity';
 import { CurrencyEnum } from 'src/common/enums/currency.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getConnection, Repository } from 'typeorm';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class InvoicesTask {
-  private invoiceCsvUrl: string;
+  private readonly invoiceCsvUrl: string;
 
   constructor(
     private readonly configService: ConfigService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     @InjectRepository(InvoiceEntity)
     private readonly invoicesRepository: Repository<InvoiceEntity>,
   ) {
@@ -25,9 +27,10 @@ export class InvoicesTask {
   @Timeout(1000)
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async updateInvoices(): Promise<void> {
-    const rawInvoices  = await this.getParsedRawInvoices();
+    const rawInvoices = await this.getParsedRawInvoices();
     const mappedInvoices = this.mapInvoices(rawInvoices);
     await this.invoicesRepository.save(mappedInvoices);
+    await this.cacheManager.reset();
   }
 
   private async getParsedRawInvoices(): Promise<RawInvoicesInterface[]> {
@@ -67,7 +70,7 @@ export class InvoicesTask {
       creditTotal: parseFloat(rawInvoice.CREDIT_TOTAL),
       bankId: parseInt(rawInvoice.BANK_ID),
       invoiceDueDate: new Date(rawInvoice.INVOICE_DUE_DATE),
-      paymentDate:  rawInvoice.PAYMENT_DATE ? new Date(rawInvoice.PAYMENT_DATE) : null,
+      paymentDate: rawInvoice.PAYMENT_DATE ? new Date(rawInvoice.PAYMENT_DATE) : null,
       currency: CurrencyEnum[rawInvoice.CURRENCY],
     }));
   }
