@@ -1,19 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GenericResponse } from '../common/interfaces/generic-response.interface';
 import { ClientEntity } from './client.entity';
 import { ClientsService } from './clients.service';
@@ -47,9 +33,7 @@ export class ClientsController {
   @ApiBadRequestResponse({
     type: GenericResponse,
   })
-  async createClient(
-    @Body() createClientDto: CreateClientDto,
-  ): Promise<GenericResponse> {
+  async createClient(@Body() createClientDto: CreateClientDto): Promise<GenericResponse> {
     return await this.clientsService.createClient(createClientDto);
   }
 
@@ -66,10 +50,7 @@ export class ClientsController {
   @ApiNotFoundResponse({
     type: GenericResponse,
   })
-  async updateClient(
-    @Param('id') id: number,
-    @Body() updateClientDto: UpdateClientDto,
-  ): Promise<GenericResponse> {
+  async updateClient(@Param('id') id: number, @Body() updateClientDto: UpdateClientDto): Promise<GenericResponse> {
     return await this.clientsService.updateClient(id, updateClientDto);
   }
 

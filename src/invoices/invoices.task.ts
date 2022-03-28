@@ -1,25 +1,24 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
-import * as https from 'https';
-import { parse } from 'csv-parse';
 import { ConfigService } from '@nestjs/config';
-import { IncomingMessage } from 'http';
-import { RawInvoicesInterface } from 'src/common/interfaces/raw-invoices.interface';
+import { RawInvoicesInterface } from '../common/interfaces/raw-invoices.interface';
 import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { InvoiceEntity } from './invoice.entity';
-import { CurrencyEnum } from 'src/common/enums/currency.enum';
+import { CurrencyEnum } from '../common/enums/currency.enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getConnection, Repository } from 'typeorm';
+import { parse } from 'csv-parse/sync';
 import { Cache } from 'cache-manager';
+import axios from 'axios';
 
 @Injectable()
 export class InvoicesTask {
   private readonly invoiceCsvUrl: string;
 
   constructor(
-    private readonly configService: ConfigService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     @InjectRepository(InvoiceEntity)
     private readonly invoicesRepository: Repository<InvoiceEntity>,
+    private readonly configService: ConfigService,
   ) {
     this.invoiceCsvUrl = this.configService.get<string>('INVOICE_CSV_URL');
   }
@@ -34,29 +33,16 @@ export class InvoicesTask {
   }
 
   private async getParsedRawInvoices(): Promise<RawInvoicesInterface[]> {
-    const rawInvoices: RawInvoicesInterface[] = [];
+    const { data: result } = await axios.get(this.invoiceCsvUrl);
 
-    return new Promise((resolve, reject) => {
-      https
-        .request(this.invoiceCsvUrl, (response: IncomingMessage) => {
-          response
-            .pipe(
-              parse({
-                trim: true,
-                columns: true,
-                delimiter: ',',
-                skip_empty_lines: true,
-              }),
-            )
-            .on('data', (row: RawInvoicesInterface) => {
-              rawInvoices.push(row);
-            })
-            .on('end', () => {
-              resolve(rawInvoices);
-            });
-        })
-        .end();
+    const rawInvoices = parse(result, {
+      trim: true,
+      columns: true,
+      delimiter: ',',
+      skip_empty_lines: true,
     });
+
+    return rawInvoices;
   }
 
   private mapInvoices(rawInvoices: RawInvoicesInterface[]): InvoiceEntity[] {

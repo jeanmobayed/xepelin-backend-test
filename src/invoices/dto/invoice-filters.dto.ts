@@ -2,7 +2,7 @@ import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
 import { CurrencyEnum } from '../../common/enums/currency.enum';
 import { Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsValidDateFormat } from 'src/common/decorators/is-valid-date-format.decorator';
+import { IsValidDateFormat } from '../../common/decorators/is-valid-date-format.decorator';
 
 export class InvoiceFiltersDto {
   @ApiPropertyOptional({ description: 'Allows to filter invoices by vendor' })

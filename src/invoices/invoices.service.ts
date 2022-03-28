@@ -20,10 +20,10 @@ export class InvoicesService {
   private readonly currencyConverterApiUrlConstants = '&compact=ultra&apiKey=';
 
   constructor(
-    private readonly configService: ConfigService,
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
     @InjectRepository(InvoiceEntity)
     private readonly invoicesRepository: Repository<InvoiceEntity>,
+    private readonly configService: ConfigService,
   ) {
     this.currencyConverterApiUrl = this.configService.get<string>('CURRENCY_CONVERTER_API_URL');
     this.currencyConverterApiKey = this.configService.get<string>('CURRENCY_CONVERTER_API_KEY');
