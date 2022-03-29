@@ -9,6 +9,7 @@ import { InvoiceEntity } from './invoice.entity';
 import { InvoicesService } from './invoices.service';
 import axios from 'axios';
 import { ConversionPairsInterface } from '../common/interfaces/conversion-pairs.interface';
+import { FailedDependencyException } from '../common/exceptions/failed-dependency.exception';
 
 describe('InvoicesService', () => {
   let InvoiceService: InvoicesService;
@@ -123,6 +124,20 @@ describe('InvoicesService', () => {
       expect(getManySpy).toHaveBeenCalled();
 
       expect(result).toEqual(mockedInvoices);
+    });
+
+    it('Should throw an error if currency conversion service fails', async () => {
+      expect(InvoiceRepository.createQueryBuilder).not.toHaveBeenCalled();
+
+      jest.spyOn(axios, 'get').mockImplementation(() => Promise.reject({ status: 401, data: axiosResponse }));
+
+      const filters: InvoiceFiltersDto = {
+        vendor: 123,
+        invoice_date: '23-MAY-2014',
+        targetCurrency: CurrencyEnum.USD,
+      };
+
+      expect(InvoiceService.listInvoices(filters)).rejects.toThrow(FailedDependencyException);
     });
   });
 });
