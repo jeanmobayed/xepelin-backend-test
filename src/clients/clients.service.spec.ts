@@ -25,11 +25,9 @@ describe('ClientService', () => {
     currency: CurrencyEnum.USD,
     apiQuota: 1500,
     allowedBanks: JSON.stringify([1, 2, 4]),
-  }
+  };
 
   beforeEach(async () => {
-    let repo: Repository<ClientEntity>;
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ClientsService,
@@ -82,9 +80,7 @@ describe('ClientService', () => {
     it('Should throw an error if client does not exist', async () => {
       (ClientRepository.findOne as jest.Mock).mockResolvedValue(null);
 
-      expect(ClientService.deleteClient(1)).rejects.toThrow(
-        NotFoundException,
-      );
+      expect(ClientService.deleteClient(1)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -116,9 +112,7 @@ describe('ClientService', () => {
         currency: CurrencyEnum.USD,
       };
 
-      expect(ClientService.updateClient(1, updateClientDto)).rejects.toThrow(
-        NotFoundException,
-      );
+      expect(ClientService.updateClient(1, updateClientDto)).rejects.toThrow(NotFoundException);
     });
   });
 

@@ -5,7 +5,7 @@ import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { InvoiceEntity } from './invoice.entity';
 import { CurrencyEnum } from '../common/enums/currency.enum';
 import { InjectRepository } from '@nestjs/typeorm';
-import { getConnection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { parse } from 'csv-parse/sync';
 import { Cache } from 'cache-manager';
 import axios from 'axios';

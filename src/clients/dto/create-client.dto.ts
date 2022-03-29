@@ -23,7 +23,7 @@ export class CreateClientDto {
 
   @IsEnum(CurrencyEnum)
   @IsNotEmpty()
-  @ApiProperty({ enum: CurrencyEnum})
+  @ApiProperty({ enum: CurrencyEnum })
   currency: CurrencyEnum;
 
   @ApiProperty()

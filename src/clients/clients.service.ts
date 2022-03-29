@@ -13,9 +13,7 @@ export class ClientsService {
     private readonly clientsRepository: Repository<ClientEntity>,
   ) {}
 
-  async createClient(
-    createClientDto: CreateClientDto,
-  ): Promise<GenericResponse> {
+  async createClient(createClientDto: CreateClientDto): Promise<GenericResponse> {
     const allowedBanks = JSON.stringify(createClientDto.allowedBanks);
 
     await this.clientsRepository.save({ ...createClientDto, allowedBanks });
@@ -23,14 +21,10 @@ export class ClientsService {
     return { message: 'Client created successfuly' };
   }
 
-  async updateClient(
-    id: number,
-    updateClientDto: UpdateClientDto,
-  ): Promise<GenericResponse> {
+  async updateClient(id: number, updateClientDto: UpdateClientDto): Promise<GenericResponse> {
     const client = await this.clientsRepository.findOne(id);
 
-    if (!client)
-      throw new NotFoundException({ message: 'The client was not found.' });
+    if (!client) throw new NotFoundException({ message: 'The client was not found.' });
 
     const { taxId, currency } = updateClientDto;
 
@@ -46,8 +40,7 @@ export class ClientsService {
   async deleteClient(id: number): Promise<GenericResponse> {
     const client = await this.clientsRepository.findOne(id);
 
-    if (!client)
-      throw new NotFoundException({ message: 'The client was not found.' });
+    if (!client) throw new NotFoundException({ message: 'The client was not found.' });
 
     await this.clientsRepository.delete(id);
 

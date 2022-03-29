@@ -1,10 +1,10 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import { registerDecorator, ValidationOptions } from 'class-validator';
 import * as moment from 'moment';
 
 const allowedDateFormats = ['DD-MMM-YYYY', 'DD/MMM/YYYY', 'DD.MMM.YYYY'];
 
 export function IsValidDateFormat(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: unknown, propertyName: string) {
     registerDecorator({
       name: 'IsValidDateFormat',
       target: object.constructor,

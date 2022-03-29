@@ -3,5 +3,5 @@ export default () => ({
   INVOICE_CSV_URL: process.env.INVOICE_CSV_URL,
   CURRENCY_CONVERTER_API_URL: process.env.CURRENCY_CONVERTER_API_URL,
   CURRENCY_CONVERTER_API_KEY: process.env.CURRENCY_CONVERTER_API_KEY,
-  PORT: process.env.PORT
+  PORT: process.env.PORT,
 });

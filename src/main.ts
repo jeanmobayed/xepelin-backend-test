@@ -8,13 +8,7 @@ import { HttpExceptionFilter } from './common/exceptions/exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('Vank')
-    .setDescription('Vank API')
-    .setVersion('1.0')
-    .addTag('clients')
-    .addTag('invoices')
-    .build();
+  const config = new DocumentBuilder().setTitle('Vank').setDescription('Vank API').setVersion('1.0').addTag('clients').addTag('invoices').build();
 
   app.enableCors();
 
@@ -23,7 +17,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  SwaggerModule.setup('swagger',  app, document);
+  SwaggerModule.setup('swagger', app, document);
 
   const configService = app.get<ConfigService>(ConfigService);
 

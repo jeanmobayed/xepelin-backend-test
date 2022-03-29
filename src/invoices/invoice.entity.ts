@@ -12,33 +12,33 @@ export class InvoiceEntity {
   @Column()
   invoiceNumber: string;
 
-  @Column({type: 'date'})
+  @Column({ type: 'date' })
   invoiceDate: Date;
 
   @ApiResponseProperty()
-  @Column({type: 'int'})
+  @Column({ type: 'int' })
   vendorId: number;
 
   @ApiResponseProperty()
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   invoiceTotal: number;
 
   @ApiResponseProperty()
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   paymentTotal: number;
 
   @ApiResponseProperty()
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0})
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   creditTotal: number;
 
   @ApiResponseProperty()
-  @Column({type: 'int'})
+  @Column({ type: 'int' })
   bankId: number;
 
-  @Column({type: 'date'})
+  @Column({ type: 'date' })
   invoiceDueDate: Date;
 
-  @Column({type: 'date', nullable: true})
+  @Column({ type: 'date', nullable: true })
   paymentDate?: Date;
 
   @Column()

@@ -21,8 +21,7 @@ import { RedisClientOptions } from 'redis';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        configService.get('typeorm') as MysqlConnectionOptions,
+      useFactory: (configService: ConfigService) => configService.get('typeorm') as MysqlConnectionOptions,
     }),
     CacheModule.registerAsync<RedisClientOptions>({
       imports: [ConfigModule],

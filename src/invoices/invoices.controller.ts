@@ -17,9 +17,7 @@ export class InvoicesController {
     type: ListInvoicesDto,
     isArray: true,
   })
-  async listInvoices(
-    @Query() filters: InvoiceFiltersDto,
-  ): Promise<ListInvoicesDto[]> {
+  async listInvoices(@Query() filters: InvoiceFiltersDto): Promise<ListInvoicesDto[]> {
     return await this.invoicesService.listInvoices(filters);
   }
 }
