@@ -81,7 +81,7 @@ Permite obtener la lista de las facturas. Puede recibir los siguientes filtros o
 
 	* **vendor**: Int. Id del vendor de la factura.
 	* **invoice_date**: String. Fecha mínima en la que puede haberse creado la factura, admite los formatos: DD-MMM-YYY, DD/MMM/YYYY o DD.MMM.YYY. Por ejemplo: 23-MAY-2014.
-	* **currency**: String. Moneda en la que serán devueltos los montos de las facturas. Puede ser CLP, USD o EUR. De no proporcionar ninguno, las facturas serán devueltas en su moneda original.
+	* **targetCurrency**: String. Moneda en la que serán devueltos los montos de las facturas. Puede ser CLP, USD o EUR. De no proporcionar ninguno, las facturas serán devueltas en su moneda original.
 
 ###  Postman
 
